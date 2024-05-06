@@ -1,0 +1,98 @@
+header {
+  border-bottom: 1px solid #e5e8eb;
+  padding: 12px 40px;
+}
+
+.logo {
+  display: flex;
+  gap: 10px;
+}
+
+.logo > a {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.logo a > svg {
+  width: 16px;
+  height: 16px;
+}
+
+.logo a > span {
+  color: #121417;
+  font-feature-settings: "dlig" on;
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 22.5px;
+  letter-spacing: -0.27px;
+}
+
+.navItems {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  /* margin-right: -13em; */
+}
+
+.navItems > div a {
+  color: #121417;
+  font-feature-settings: "dlig" on;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+}
+
+.btn__wrapper {
+  gap: 16px;
+  /* margin-right: -13em; */
+}
+
+.sidebar-toggle-icon {
+  font-size: 40px;
+  cursor: pointer;
+  display: none;
+}
+
+.mobile-sidebar {
+  display: block;
+  position: fixed;
+  left: 0;
+ background-color: #fff;
+ z-index: 1;
+}
+
+.--sidebar-close {
+  padding-top: 20px;
+  padding-right: 30px;
+}
+
+.sidebar-toggle-icon {
+  cursor: pointer;
+  font-size: 30px;
+}
+
+
+@media (max-width: 900px) {
+  .sidebar-toggle-icon {
+     display: block; 
+  }
+
+  .logo a > span {
+    display: none;
+  }
+
+  .logo a > svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .btn__wrapper button:nth-child(odd) {
+    display: none;
+  }
+  .navItems {
+    display: none;
+  }
+}
