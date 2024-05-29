@@ -12,7 +12,7 @@ const register = asyncHandler(async (req, res) => {
       !email ||
       (!password &&
         (() => {
-          res.status(400);
+          res.status(400);  
           throw new Error("Please! fill all the required fields");
         })());
 
@@ -119,26 +119,7 @@ const login = asyncHandler(async (req, res) => {
   }
 });
 
-// Delete an admin
 
-const deleteAdmin = asyncHandler(async (req, res) => {
-  try {
-    const { adminId } = req.params;
-    const admin = Admin.findById(adminId);
-    if (!admin) {
-      res.status(404);
-      throw new Error("user not found");
-    }
-
-    await admin.deleteOne();
-    res.status(200).json({
-      message: "Admin data deleted successfully",
-    });
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send("server error");
-  }
-});
 
 const getAdmin = asyncHandler(async (req, res) => {
   try {
@@ -219,6 +200,27 @@ const logoutAdmin = asyncHandler(async(req, res)=> {
 
   return res.status(200).json({message: "logout Successful"});
 })
+
+// Delete an admin
+
+const deleteAdmin = asyncHandler(async (req, res) => {
+  try {
+    const { adminId } = req.params;
+    const admin = Admin.findById(adminId);
+    if (!admin) {
+      res.status(404);
+      throw new Error("user not found");
+    }    
+
+    await admin.deleteOne();
+    res.status(200).json({
+      message: "Admin data deleted successfully",
+    });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("server error");
+  }
+});
 
 
 module.exports = {

@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
 const roomSchema = new mongoose.Schema({
+
     roomNumber:{
         type: Number,
-        require: true
+        require: true,
+       
     },
 
     roomCapacity:{
@@ -10,17 +12,19 @@ const roomSchema = new mongoose.Schema({
         require: true
     },
 
-    roomOccupancy:{
+    roomOccupancy:[
+       { 
         type: String,
         ref: "Student"
-    },
+        }
+    ],
     roomLocation:{
         type: String,
         require: true
     },
     roomStatus:{
         type: String,
-        default: "unAvailable"
+        default: "available"
     },
 })
 
