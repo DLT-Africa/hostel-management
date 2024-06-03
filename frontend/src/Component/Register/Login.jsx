@@ -16,6 +16,7 @@ const Login = () => {
               name="email"
               placeholder="Enter your email"
               required
+              
             />
           </div>
 
