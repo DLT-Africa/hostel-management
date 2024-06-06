@@ -1,156 +1,457 @@
-import React, { useState } from "react";
+// import React, {useEffect, useState } from "react";
+// import { RiDeleteBin6Line } from "react-icons/ri";
+// import "./Dashboard.css";
+// import Sidebar from "./Sidebar";
+// import { Link } from "react-router-dom";
+// import { IoMenu,  IoCloseOutline} from "react-icons/io5";
+// import {FaPenFancy} from "react-icons/fa"
+// import {confirmAlert} from "react-confirm-alert"
+// import useAuthRedirect from "../../../context/useAuth";
+// import axios from "axios";
+// import UpdateCheckin from "../../../Modal/UpdateCheckin";
+// import ChangeStudentRoom from "../../../Modal/ChangeStudentRoom";
+// import UpdateStudentProfile from "../../../Modal/UpdateStudentProfile";
+
+// const StudentDashboard = () => {
+//   const [search, setSearch] = useState("");
+//   const [isSidebarToggle, setIsSidebarToggle] = useState(false);
+//   const [data, setData] = useState([]);
+//   const [message, setMessage] = useState("");
+//   const [isModalOpen, setIsModalOpen] = useState(false);
+//   const [selectedModal, setSelectedModal] =useState("")
+//   const [selectedStudent, setSelectedStudent] =useState(null)
+
+//   useEffect(() => {
+//     const fetchStudents = async () => {
+//       try {
+//         const response = await axios.get("http://localhost:3500/student/");
+//         setData(response.data);
+//       } catch (error) {
+//         console.error("Error fatching data:", error)
+//       }
+//     }
+//     fetchStudents()
+//   },[])
+
+//   // ARUGBO "@Nafisat"
+
+//   const handleModalOpen = (student) => {
+//     setSelectedStudent(student)
+//     setIsModalOpen(true)
+//   }
+
+//   const handleModalClose = () => {
+//     setIsModalOpen(false)
+//     setSelectedModal("")
+//     setSelectedStudent(null)
+//   }
+
+//   const handleModalSelect = (modalType) => {
+//     setSelectedModal(modalType)
+//   }
+
+//   const removeUser = async (_id) => {
+//     try {
+//       console.log(`Delete student by id: ${_id}`)
+//       const response = await axios.delete(
+//         `http://localhost:3500/student/delete-student/${_id}`
+//       )
+
+//       console.log(response.data)
+
+//       // filtering out the deleted student from the data
+//       setData((prevData) =>prevData.filter((student) =>student._id !==_id));
+//         console.log("Student removed from local state successful")
+//       // setting success message
+//       setMessage("Student deleted successfull");
+
+//     } catch (error) {
+//       // setting error message
+//       setMessage("failed to delete");
+//       console.error("Error deleting:", error);
+//     }
+//   }
+
+//   const confirmDelete = (_id) => {
+//     confirmAlert({
+//       title: "Delete This Student",
+//       message: "Are You Sure You Want To Delete This Student?",
+//       button: [
+//         {
+//           label: "Delete",
+//           onClick: () => removeUser(_id),
+//         },
+//         {
+//           label: "cancel",
+//           onClick: () => alert("deletion cancelled")
+//         }
+//       ]
+//     })
+//   }
+
+//   const filteredData = data.filter(
+//     (item) =>
+//       item.nationality.toLowerCase().includes(search.toLowerCase()) ||
+//       item.email.toLowerCase().includes(search.toLowerCase())
+//   );
+
+//   return (
+
+//     <div>
+//       {isSidebarToggle && (
+//          <div className="mobile-side-nav">
+//          <Sidebar />
+//          </div>
+//       )}
+
+//       <div className="--flex --overflow-hidden">
+//       <div className="desktop-side-nav">
+//         <Sidebar />
+//       </div>
+
+//       <div className="--flex-dir-column --overflow-y-auto --flex-One --overflow-x-hidden">
+//       <main className="--flex-justify-center w-full">
+//       <div className="right dash-main">
+//         <div className="--flex-justify-between">
+//         <p>Students</p>
+//         { isSidebarToggle ? (
+//         <IoCloseOutline className="sidebar-toggle-iconB"
+//         onClick={() => setIsSidebarToggle(false)}/>
+//       ) :(
+//            <IoMenu className="sidebar-toggle-iconB"
+//            onClick={() => setIsSidebarToggle(true)}/>
+//         )}
+
+//         </div>
+
+//         <p>Search students</p>
+
+//         <input
+//           placeholder="Search by name, email, or ID number"
+//           type="text"
+//           className="search"
+//           value={search}
+//           onChange={(e) => setSearch(e.target.value)}
+//         />
+
+//         <div className="table">
+//           <table className="table_wrapper ">
+//             <thead className="table__head">
+//               <tr className="table__row">
+//                 <th className="same_class">Student Name</th>
+//                 <th className="same_class">Email</th>
+//                 <th className="same_class">ID Number</th>
+//                 <th className="same_class">Gender</th>
+//                 <th className="same_class">Age</th>
+//                 <th className="same_class">Nationality</th>
+//                 <th className="same_class">Actions</th>
+//               </tr>
+//             </thead>
+//             <tbody className="table__body">
+//               {filteredData.map((student, index) => (
+//                 <tr key={index} className="table__row">
+//                   <td className="same_class">{student.name}</td>
+//                   <td className="same_class">{student.email}</td>
+//                   <td className="same_class">{student.idNumber}</td>
+//                   <td className="same_class">{student.gender}</td>
+//                   <td className="sameass">{student.age}</td>
+//                   <td className="same_class">{student.nationality}</td>
+//                   <td className="same_class">
+//                     <RiDeleteBin6Line
+//                       size={25}
+//                       color="red"
+//                       onClick={() => confirmDelete(student._id)}
+//                     />
+//                     &nbsp;&nbsp;
+//                     <FaPenFancy
+//                     size={25}
+//                     color="blue"
+//                     onClick={() => handleModalOpen(student)}
+//                     />
+//                   </td>
+//                 </tr>
+//               ))}
+//             </tbody>
+//           </table>
+//         </div>
+//         <button className="btn-secondary">
+//           <Link to="/studentreg">Add a student</Link>
+//         </button>
+//       </div>
+//       </main>
+
+//     </div>
+//     </div>
+
+//     {isModalOpen &&(
+//       <div className="modal">
+//         <div className="modal-content">
+//           <h2>Select an Option</h2>
+//           <button
+//           onClick={() => handleModalSelect("UpdateStudentProfile")}
+//           className="one"
+//           >
+//             Update Student Profile
+//           </button>
+//           <button
+//           onClick={() => handleModalSelect("changeStudentRoom")}
+//           className="two"
+//           >
+//             Change Student Room
+//           </button>
+//           <button
+//           onClick={() => handleModalSelect("UpdateCheckin")}
+//           className="three"
+//           >
+//             update check-In
+//           </button>
+//           <button onClick={handleModalSelect}>Close</button>
+//         </div>
+//         </div>
+//     )}
+
+//     {
+//       selectedModal === "UpdateStudentProfile" && (
+//         <UpdateStudentProfile
+//         student={selectedStudent}
+//         onClose={handleModalClose}
+//         />
+//       )
+//     }
+//     {
+//       selectedModal === "changeStudentRoom" && (
+//         <ChangeStudentRoom
+//         student={selectedStudent}
+//         onClose={handleModalClose}
+//         />
+//       )
+//     }
+//     {
+//       selectedModal === "UpdateCheckIn" && (
+//         <UpdateCheckin
+//         student={selectedStudent}
+//         onClose={handleModalClose}
+//         />
+//       )
+//     }
+//     </div>
+
+//   );
+// };
+
+// export default StudentDashboard;
+
+import React, { useEffect, useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import "./Dashboard.css";
 import Sidebar from "./Sidebar";
 import { Link } from "react-router-dom";
-import { IoMenu,  IoCloseOutline} from "react-icons/io5";
-
-
-const studentsData = [
-  {
-    id: 1,
-    name: "Jessica Smith",
-    email: "jessica.smith@gmail.com",
-    idNumber: "12345",
-    gender: "Female",
-    age: 20,
-    nationality: "American",
-  },
-  {
-    id: 2,
-    name: "John Doe",
-    email: "john.doe@gmail.com",
-    idNumber: "67890",
-    gender: "Male",
-    age: 22,
-    nationality: "British",
-  },
-  {
-    id: 3,
-    name: "Maria Garcia",
-    email: "maria.garcia@gmail.com",
-    idNumber: "54321",
-    gender: "Female",
-    age: 25,
-    nationality: "Spanish",
-  },
-];
+import { IoMenu, IoCloseOutline } from "react-icons/io5";
+import { FaPenFancy } from "react-icons/fa";
+import { confirmAlert } from "react-confirm-alert";
+import axios from "axios";
+import UpdateCheckin from "../../../Modal/UpdateCheckin";
+import ChangeStudentRoom from "../../../Modal/ChangeStudentRoom";
+import UpdateStudentProfile from "../../../Modal/UpdateStudentProfile";
+import 'react-confirm-alert/src/react-confirm-alert.css'; 
 
 const StudentDashboard = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [students, setStudents] = useState(studentsData);
-  const [filteredData, setFilteredData] = useState(studentsData);
-  const [isSidebarToggle, setIsSidebarToggle] = useState(false)
+  const [search, setSearch] = useState("");
+  const [isSidebarToggle, setIsSidebarToggle] = useState(false);
+  const [data, setData] = useState([]);
+  const [message, setMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedModal, setSelectedModal] = useState("");
+  const [selectedStudent, setSelectedStudent] = useState(null);
 
-  const handleSearchChange = (e) => {
-    const term = e.target.value.toLowerCase();
-    setSearchTerm(term);
-    const filtered = studentsData.filter(
-      (student) =>
-        student.name.toLowerCase().includes(term) ||
-        student.email.toLowerCase().includes(term)
-    );
-    setFilteredData(filtered);
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const response = await axios.get("http://localhost:3500/student/");
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchStudents();
+  }, []);
+
+  const handleModalOpen = (student) => {
+    setSelectedStudent(student);
+    setIsModalOpen(true);
   };
 
-  const handleDelete = (studentId) => {
-    const updatedStudents = students.filter(
-      (student) => student.id !== studentId
-    );
-    setStudents(updatedStudents);
-    const updatedFilteredData = filteredData.filter(
-      (student) => student.id !== studentId
-    );
-    setFilteredData(updatedFilteredData);
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedModal("");
+    setSelectedStudent(null);
   };
+
+  const handleModalSelect = (modalType) => {
+    setSelectedModal(modalType);
+  };
+
+  const removeUser = async (_id) => {
+    try {
+      console.log(`Delete student by id: ${_id}`);
+      await axios.delete(`http://localhost:3500/student/delete-student/${_id}`);
+      setData((prevData) => prevData.filter((student) => student._id !== _id));
+      console.log("Student removed from local state successfully");
+      setMessage("Student deleted successfully");
+    } catch (error) {
+      setMessage("Failed to delete");
+      console.error("Error deleting:", error);
+    }
+  };
+
+  const confirmDelete = (_id) => {
+    confirmAlert({
+      title: "Delete This Student",
+      message: "Are You Sure You Want To Delete This Student?",
+      buttons: [
+        {
+          label: "Delete",
+          onClick: () => removeUser(_id),
+        },
+        {
+          label: "Cancel",
+          onClick: () => alert("Deletion cancelled"),
+        },
+      ],
+    });
+  };
+
+  const filteredData = data.filter(
+    (item) =>
+      item.nationality.toLowerCase().includes(search.toLowerCase()) ||
+      item.email.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
-
     <div>
       {isSidebarToggle && (
-         <div className="mobile-side-nav">
-         <Sidebar /> 
-         </div>
+        <div className="mobile-side-nav">
+          <Sidebar />
+        </div>
       )}
-     
-
       <div className="--flex --overflow-hidden">
-      <div className="desktop-side-nav">
-        <Sidebar />
-      </div>
-
-      <div className="--flex-dir-column --overflow-y-auto --flex-One --overflow-x-hidden">
-      <main className="--flex-justify-center w-full">
-      <div className="right dash-main">
-        <div className="--flex-justify-between">
-        <p>Students</p>
-        { isSidebarToggle ? (
-        <IoCloseOutline className="sidebar-toggle-iconB" 
-        onClick={() => setIsSidebarToggle(false)}/>
-      ) :(
-           <IoMenu className="sidebar-toggle-iconB"
-           onClick={() => setIsSidebarToggle(true)}/>
-        )}
-       
+        <div className="desktop-side-nav">
+          <Sidebar />
         </div>
-        
-        <p>Search students</p>
-
-        <input
-          placeholder="Search by name, email, or ID number"
-          type="text"
-          className="search"
-          value={searchTerm}
-          onChange={handleSearchChange}
+        <div className="--flex-dir-column --overflow-y-auto --flex-One --overflow-x-hidden">
+          <main className="--flex-justify-center w-full">
+            <div className="right dash-main">
+              <div className="--flex-justify-between">
+                <p>Students</p>
+                {isSidebarToggle ? (
+                  <IoCloseOutline
+                    className="sidebar-toggle-iconB"
+                    onClick={() => setIsSidebarToggle(false)}
+                  />
+                ) : (
+                  <IoMenu
+                    className="sidebar-toggle-iconB"
+                    onClick={() => setIsSidebarToggle(true)}
+                  />
+                )}
+              </div>
+              <p>Search students</p>
+              <input
+                placeholder="Search by name, email, or ID number"
+                type="text"
+                className="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <div className="table">
+                <table className="table_wrapper ">
+                  <thead className="table__head">
+                    <tr className="table__row">
+                      <th className="same_class">Student Name</th>
+                      <th className="same_class">Email</th>
+                      <th className="same_class">ID Number</th>
+                      <th className="same_class">Gender</th>
+                      <th className="same_class">Age</th>
+                      <th className="same_class">Nationality</th>
+                      <th className="same_class">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="table__body">
+                    {filteredData.map((student, index) => (
+                      <tr key={index} className="table__row">
+                        <td className="same_class">{student.name}</td>
+                        <td className="same_class">{student.email}</td>
+                        <td className="same_class">{student.idNumber}</td>
+                        <td className="same_class">{student.gender}</td>
+                        <td className="sameass">{student.age}</td>
+                        <td className="same_class">{student.nationality}</td>
+                        <td className="same_class">
+                          <RiDeleteBin6Line
+                            size={25}
+                            color="red"
+                            onClick={() => confirmDelete(student._id)}
+                          />
+                          &nbsp;&nbsp;
+                          <FaPenFancy
+                            size={25}
+                            color="blue"
+                            onClick={() => handleModalOpen(student)}
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <button className="btn-secondary">
+                <Link to="/studentreg">Add a student</Link>
+              </button>
+            </div>
+          </main>
+        </div>
+      </div>
+      {isModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Select an Option</h2>
+            <button
+              onClick={() => handleModalSelect("UpdateStudentProfile")}
+              className="one"
+            >
+              Update Student Profile
+            </button>
+            <button
+              onClick={() => handleModalSelect("changeStudentRoom")}
+              className="two"
+            >
+              Change Student Room
+            </button>
+            <button
+              onClick={() => handleModalSelect("UpdateCheckin")}
+              className="three"
+            >
+              Update Check-In
+            </button>
+            <button onClick={handleModalClose}>Close</button>
+          </div>
+        </div>
+      )}
+      {selectedModal === "UpdateStudentProfile" && (
+        <UpdateStudentProfile
+          student={selectedStudent}
+          onClose={handleModalClose}
         />
-
-        <div className="table">
-          <table className="table_wrapper ">
-            <thead className="table__head">
-              <tr className="table__row">
-                <th className="same_class">Student Name</th>
-                <th className="same_class">Email</th>
-                <th className="same_class">ID Number</th>
-                <th className="same_class">Gender</th>
-                <th className="same_class">Age</th>
-                <th className="same_class">Nationality</th>
-                <th className="same_class">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="table__body">
-              {filteredData.map((student, index) => (
-                <tr key={index} className="table__row">
-                  <td className="same_class">{student.name}</td>
-                  <td className="same_class">{student.email}</td>
-                  <td className="same_class">{student.idNumber}</td>
-                  <td className="same_class">{student.gender}</td>
-                  <td className="same_class">{student.age}</td>
-                  <td className="same_class">{student.nationality}</td>
-                  <td className="same_class">
-                    <RiDeleteBin6Line
-                      size={25}
-                      color="red"
-                      onClick={() => handleDelete(student.id)}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <button className="btn-secondary">
-          <Link to="/studentreg">Add a student</Link>
-        </button>
-      </div>
-      </main>
-      
+      )}
+      {selectedModal === "changeStudentRoom" && (
+        <ChangeStudentRoom
+          student={selectedStudent}
+          onClose={handleModalClose}
+        />
+      )}
+      {selectedModal === "UpdateCheckIn" && (
+        <UpdateCheckin student={selectedStudent} onClose={handleModalClose} />
+      )}
     </div>
-    </div>
-
-    </div>
-
-    
-    
   );
 };
 
