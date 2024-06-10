@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { IoMenu, IoCloseOutline } from "react-icons/io5";
 import { FaPenFancy } from "react-icons/fa";
 import { confirmAlert } from "react-confirm-alert";
-import 'react-confirm-alert/src/react-confirm-alert.css'; 
+import "react-confirm-alert/src/react-confirm-alert.css";
 import axios from "axios";
 import UpdateCheckin from "../../../Modal/UpdateCheckin";
 import ChangeStudentRoom from "../../../Modal/ChangeStudentRoom";
@@ -138,7 +138,7 @@ const StudentDashboard = () => {
                       <tr key={index} className="table__row">
                         <td className="same_class">{student.name}</td>
                         <td className="same_class">{student.email}</td>
-                        <td className="same_class">{student.idNumber}</td>
+                        <td className="same_class">{student._id}</td>
                         <td className="same_class">{student.gender}</td>
                         <td className="sameass">{student.age}</td>
                         <td className="same_class">{student.nationality}</td>
@@ -177,10 +177,7 @@ const StudentDashboard = () => {
             >
               Update Student Profile
             </button>
-            <button
-              onClick={() => handleModalSelect("changeStudentRoom")}
-              className="two"
-            >
+            <button onClick={() => handleModalSelect("ChangeStudentRoom")} className="two">
               Change Student Room
             </button>
             <button
@@ -199,13 +196,13 @@ const StudentDashboard = () => {
           onClose={handleModalClose}
         />
       )}
-      {selectedModal === "changeStudentRoom" && (
+      {selectedModal === "ChangeStudentRoom" && (
         <ChangeStudentRoom
           student={selectedStudent}
           onClose={handleModalClose}
         />
       )}
-      {selectedModal === "UpdateCheckIn" && (
+      {selectedModal === "UpdateCheckin" && (
         <UpdateCheckin student={selectedStudent} onClose={handleModalClose} />
       )}
     </div>

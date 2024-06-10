@@ -26,6 +26,7 @@ const Room = () => {
           "http://localhost:3500/room/get-all-room"
         );
         setRoomData(response.data);
+        
       } catch (error) {
         setIsLoading(false);
         if (error.response && error.response.status === 400) {

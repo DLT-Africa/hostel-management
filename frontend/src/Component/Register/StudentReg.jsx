@@ -62,7 +62,7 @@ const StudentReg = () => {
         <p className="title">Register a new student</p>
         <form className="form" onSubmit={registerStudent}>
           <div className="--dir-column">
-            <label htmlFor="name">Students Name:</label>
+            <label htmlFor="name">Student&apos;s Name:</label>
             <input
               type="text"
               className="input"

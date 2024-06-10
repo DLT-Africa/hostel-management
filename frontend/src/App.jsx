@@ -27,7 +27,7 @@ function App() {
         }
       />
 
-      <Route path="/adminsPrev" element={<AdminPreview />} />
+      <Route path="/adminPrev" element={<AdminPreview />} />
       <Route
         path="/attendance"
         element={
