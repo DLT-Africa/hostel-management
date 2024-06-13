@@ -47,7 +47,7 @@ const AdminPreview = () => {
   const handleUpdateRole = async (id, newRole) => {
     try {
       const response = await axios.patch(`http://localhost:3500/admin/${id}`, {
-        role: newRole,
+        role: newRole
       });
       setAdminData((prevData) =>
         prevData.map((admin) =>
@@ -66,6 +66,7 @@ const AdminPreview = () => {
       admin.fullname.toLowerCase().includes(search.toLowerCase()) ||
       admin.email.toLowerCase().includes(search.toLowerCase())
   );
+  console.log(adminData)
 
   return (
     <div className="__prevCon">
@@ -83,16 +84,20 @@ const AdminPreview = () => {
       </div>
 
       <div className="__prevList">
-        <UserTable
+        {isLoading ? (
+          <p>Loading...</p>
+        ): adminData.length > 0 ? (
+          <UserTable
           data={filteredData}
           onDelete={handleDelete}
           onUpdateRole={handleUpdateRole}
         />
+        ) : (<p>No admins found</p>)
+        }
+        
       </div>
 
-      <div className="__inviteBtnCon">
-        <button className="__inviteBtn">Invite Admin</button>
-      </div>
+      {message && <p>{message}</p>}
     </div>
   );
 };
