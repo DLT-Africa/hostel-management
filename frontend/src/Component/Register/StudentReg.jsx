@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "./Register.css";
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -12,7 +12,7 @@ const initialState = {
   gender: "",
   g_name: "",
   g_email: "",
-  nationality: ""
+  nationality: "",
 };
 
 const StudentReg = () => {
@@ -20,41 +20,55 @@ const StudentReg = () => {
   const [formValidMessage, setFormValidMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const {name, age, roomNum, email, gender, g_name, g_email, nationality} = formData;
+  const { name, age, roomNum, email, gender, g_name, g_email, nationality } =
+    formData;
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
-    const {name, value} = e.target;
-    setFormData({...formData, [name] : value})
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const registerStudent = async (e) => {
     e.preventDefault();
 
-    if(!name || !age || !roomNum || !email || !gender || !g_name || !g_email || !nationality) {
+    if (
+      !name ||
+      !age ||
+      !roomNum ||
+      !email ||
+      !gender ||
+      !g_name ||
+      !g_email ||
+      !nationality
+    ) {
       toast.error("All field required");
-      return
+      return;
     }
 
     axios
-    .post("http://localhost:3500/student/register-student", formData)
-    .then((response) => {
-      console.log(response)
-      setIsSubmitting(false)
-      toast.success("Registration Successful")
-      navigate("/studentdash")
-    }).catch((error) => {
-      setIsSubmitting(false);
-      const message = error.response?.status === 400
-      ? "A student with same email already exist" :
-      "Server error unable to process the reg"
+      .post(
+        "https://hostel-management-app.vercel.app/student/register-student",
+        formData
+      )
+      .then((response) => {
+        console.log(response);
+        setIsSubmitting(false);
+        toast.success("Registration Successful");
+        navigate("/studentdash");
+      })
+      .catch((error) => {
+        setIsSubmitting(false);
+        const message =
+          error.response?.status === 400
+            ? "A student with same email already exist"
+            : "Server error unable to process the reg";
 
-      setFormValidMessage(message)
-      toast.error(message)
-    })
-
-  }
+        setFormValidMessage(message);
+        toast.error(message);
+      });
+  };
 
   return (
     <div className=" form__ --100vh">
@@ -127,7 +141,6 @@ const StudentReg = () => {
             />
           </div>
 
-
           <div className="--dir-column">
             <label htmlFor="g_name">Guardian&apos;s Name:</label>
             <input
@@ -138,7 +151,6 @@ const StudentReg = () => {
               required
               onChange={handleInputChange}
               value={formData.g_name}
-              
             />
           </div>
 
@@ -154,7 +166,7 @@ const StudentReg = () => {
               value={formData.g_email}
             />
           </div>
-          
+
           <div className="--dir-column">
             <label htmlFor="nationality">Nationality</label>
             <input
